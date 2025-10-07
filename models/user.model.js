@@ -6,4 +6,11 @@ const userShema = new mongoose.Schema({
     role: {type: String, default: 'user'}
 }, {timestamps: true})
 
+/**
+ * Roles :
+ * User
+ * Preparer
+ * Admin
+ */
+
 module.exports = mongoose.model('User', userShema)
