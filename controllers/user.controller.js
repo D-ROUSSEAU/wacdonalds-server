@@ -1,4 +1,4 @@
-const User = require('../models/user.model')
+const Users = require('../models/user.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const passwordValidator = require('password-validator')
@@ -22,14 +22,14 @@ exports.register = async (req, res) => {
         if(!schema.validate(password))
             return res.status(400).json({error: 'Password does not meet security criteria'})
 
-        const existingUser = await User.findOne({ email })
+        const existingUser = await Users.findOne({ email })
 
         if(existingUser)
             return res.status(400).json({error: 'User already exists'})
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        const newUser = new User({
+        const newUser = new Users({
             email,
             password: hashedPassword,
             role
@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
         if(!email || !password)
             return res.status(400).json({error: 'Email and password are required'})
 
-            const existingUser = await User.findOne({ email })
+            const existingUser = await Users.findOne({ email })
 
             if(!existingUser)
                 return res.status(400).json({error: 'Invalid login credentials'})
@@ -69,5 +69,15 @@ exports.login = async (req, res) => {
             res.status(200).json({ token, user: existingUser })
     } catch (error) {
         res.status(500).json({error: 'Error when trying to login user'})
+    }
+}
+
+exports.getUsers = async (req, res) => {
+    try {
+        const users = await Users.find()
+
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).json({error: 'Error when trying to retreive users'})
     }
 }
