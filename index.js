@@ -18,6 +18,7 @@ app.use(cors())
 
 // Routes
 app.use('/api/products', require('./routes/product.routes.js'))
+app.use('/api/orders', require('./routes/order.routes.js'))
 
 // Listen
 const PORT = process.env.PORT
