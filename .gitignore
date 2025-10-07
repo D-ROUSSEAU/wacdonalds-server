@@ -9,6 +9,7 @@ npm-debug.log
 .DS_Store
 Thumbs.db
 
-# Build / compilation
+# Build / compilation / docs
 dist/
 build/
+docs/
