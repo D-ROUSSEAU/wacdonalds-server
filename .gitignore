@@ -1,1 +1,14 @@
-node_modules
+# Node.js
+node_modules/
+npm-debug.log
+
+# Environnement
+.env
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Build / compilation
+dist/
+build/
