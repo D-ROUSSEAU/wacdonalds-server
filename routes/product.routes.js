@@ -3,6 +3,8 @@ const auth = require('../middlewares/auth')
 const { getProducts } = require('../controllers/product.controller')
 const router = express.Router()
 
-router.get('/', auth('user'), getProducts)
+router.use(auth('user'))
+
+router.get('/', getProducts)
 
 module.exports = router
