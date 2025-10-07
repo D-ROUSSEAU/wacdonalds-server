@@ -1,8 +1,8 @@
-const productModel = require("../models/product.model")
+const Products = require("../models/product.model")
 
 exports.getProducts = async (req, res) => {
     try {
-        const products = await productModel.find()
+        const products = await Products.find()
 
         res.status(200).json(products)
     } catch (error) {

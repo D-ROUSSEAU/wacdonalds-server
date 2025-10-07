@@ -17,7 +17,7 @@ app.use(helmet())
 app.use(cors())
 
 // Routes
-app.use('api/products', require('./routes/product.routes.js'))
+app.use('/api/products', require('./routes/product.routes.js'))
 
 // Listen
 const PORT = process.env.PORT
