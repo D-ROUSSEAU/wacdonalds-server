@@ -17,9 +17,7 @@ app.use(helmet())
 app.use(cors())
 
 // Routes
-app.use('/api/test', (req, res) => {
-    res.status(200).json({message: 'Hello World!'})
-})
+app.use('api/products', require('./routes/product.routes.js'))
 
 // Listen
 const PORT = process.env.PORT
