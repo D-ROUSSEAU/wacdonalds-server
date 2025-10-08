@@ -28,13 +28,12 @@ exports.getOrder = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
     try {
-        const { status, menus } = req.body
+        const { menus } = req.body
 
-        if(!status || !menus)
+        if(!menus)
             return res.status(400).json({error: 'Please fill in the required fields'})
 
         const order = new Orders({
-            status,
             menus
         })
     

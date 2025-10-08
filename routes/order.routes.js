@@ -1,5 +1,5 @@
 const express = require('express')
-const { getOrders, getOrder, createOrder, deliverOrder } = require('../controllers/order.controller')
+const { getOrders, getOrder, createOrder, deliverOrder, finishOrder, prepareOrder } = require('../controllers/order.controller')
 const router = express.Router()
 
 router.get('/', getOrders)
