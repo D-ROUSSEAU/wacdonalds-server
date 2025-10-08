@@ -3,12 +3,10 @@ const auth = require('../middlewares/auth')
 const { getMenus, createMenu, getMenu, editMenu, deleteMenu } = require('../controllers/menu.controller')
 const router = express.Router()
 
-router.use(auth('admin'))
-
-router.get('/', getMenus)
-router.get('/:id', getMenu)
-router.post('/', createMenu)
-router.put('/:id', editMenu)
-router.delete('/:id', deleteMenu)
+router.get('/', auth('user'), getMenus)
+router.get('/:id', auth('user'), getMenu)
+router.post('/', auth('admin'), createMenu)
+router.put('/:id', auth('admin'), editMenu)
+router.delete('/:id', auth('admin'), deleteMenu)
 
 module.exports = router
