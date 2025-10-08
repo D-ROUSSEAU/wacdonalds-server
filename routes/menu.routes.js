@@ -3,7 +3,7 @@ const auth = require('../middlewares/auth')
 const { getMenus, createMenu, getMenu, editMenu, deleteMenu } = require('../controllers/menu.controller')
 const router = express.Router()
 
-router.use(auth('user'))
+router.use(auth('admin'))
 
 router.get('/', getMenus)
 router.get('/:id', getMenu)
