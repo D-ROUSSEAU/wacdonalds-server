@@ -47,7 +47,7 @@ exports.createProduct = async (req, res) => {
     
         res.status(200).json(savedProduct)
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while create the product" })
+        res.status(500).json({ error: "An error occurred while create the product", error })
     }
 }
 
@@ -62,19 +62,19 @@ exports.editProduct = async (req, res) => {
             return res.status(404).json({error: 'Product not find'})
 
         if(name)
-            project.name = name
+            product.name = name
 
         if(description)
-            project.description = description
+            product.description = description
 
         if(price)
-            project.price = price
+            product.price = price
 
         if(image)
-            project.image = image
+            product.image = image
 
         if(quantity)
-            project.quantity = quantity
+            product.quantity = quantity
 
         const editProduct = await product.save()
 
