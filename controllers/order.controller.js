@@ -3,7 +3,15 @@ const Orders = require("../models/order.model")
 
 exports.getOrders = async (req, res) => {
     try {
-        const orders = await Orders.find()
+        const userRole = req.user.role
+        let filter = {}
+
+        if (userRole === "preparer")
+            filter.status = "prepared"
+        else if (userRole === "admin")
+            filter.status = { $in: ["finished", "delivered"] }
+
+        const orders = await Orders.find(filter);
 
         res.status(200).json(orders)
     } catch (error) {
