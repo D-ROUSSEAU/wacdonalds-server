@@ -54,7 +54,7 @@ exports.editMenu = async (req, res) => {
         const menu = await Menus.findById(id)
 
         if(!menu)
-            return res.status(404).json({error: 'Product not find'})
+            return res.status(404).json({error: 'Menu not find'})
 
         if(name)
             menu.name = name
