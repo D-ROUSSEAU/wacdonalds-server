@@ -1,6 +1,7 @@
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
 
+const PORT = process.env.PORT
 const options = {
     definition: {
         openapi: "3.0.0",
@@ -9,7 +10,7 @@ const options = {
             version: "1.0.0",
         },
         server: [
-            {url: 'http://localhost:3000'}
+            {url: `http://localhost:${PORT}`}
         ]
     },
     apis: ["./routes/*.js"]

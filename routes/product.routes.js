@@ -25,7 +25,7 @@ router.use(auth('admin'))
  *              200:
  *                  description: list of products
  */
-router.get('/', getProducts)
+router.get('/', auth('admin'), getProducts)
 
 /**
  * @swagger
@@ -52,7 +52,7 @@ router.get('/', getProducts)
  *              400:
  *                  description: id not valid
  */
-router.get('/:id', getProduct)
+router.get('/:id', auth('admin'), getProduct)
 
 /**
  * @swagger
@@ -90,7 +90,7 @@ router.get('/:id', getProduct)
  *              400:
  *                  description: required fields missing
  */
-router.post('/', upload.single('image'), createProduct)
+router.post('/', auth('admin'), upload.single('image'), createProduct)
 
 /**
  * @swagger
@@ -127,7 +127,7 @@ router.post('/', upload.single('image'), createProduct)
  *              400:
  *                  description: required fields missing
  */
-router.put('/:id', upload.single('image'), editProduct)
+router.put('/:id', auth('admin'), upload.single('image'), editProduct)
 
 /**
  * @swagger
@@ -154,6 +154,6 @@ router.put('/:id', upload.single('image'), editProduct)
  *              404:
  *                  description: product not found
  */
-router.delete('/:id', deleteProduct)
+router.delete('/:id', auth('admin'), deleteProduct)
 
 module.exports = router

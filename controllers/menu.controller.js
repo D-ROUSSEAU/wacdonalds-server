@@ -54,7 +54,7 @@ exports.editMenu = async (req, res) => {
         const menu = await Menus.findById(id)
 
         if(!menu)
-            return res.status(404).json({error: 'Menu not find'})
+            return res.status(400).json({error: 'Menu not find'})
 
         if(name)
             menu.name = name
@@ -67,7 +67,7 @@ exports.editMenu = async (req, res) => {
 
         const editMenu = await menu.save()
 
-        res.json(editMenu)
+        res.status(200).json(editMenu)
     } catch (error) {
         res.status(500).json({ error: "An error occurred while edit the menu" })
     }
@@ -79,11 +79,11 @@ exports.deleteMenu = async (req, res) => {
         const menu = await Menus.findById(id)
 
         if(!menu)
-            return res.status(404).json({error: 'Menu not find'})
+            return res.status(400).json({error: 'Menu not find'})
 
         await menu.deleteOne()
 
-        res.json({message: 'Menu deleted'})
+        res.status(200).json({message: 'Menu deleted'})
     } catch (error) {
         res.status(500).json({ error: "An error occurred while delete the menu" })
     }
