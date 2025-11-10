@@ -5,6 +5,7 @@ const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const setupSwagger = require('./swagger')
 
+app.set('trust proxy', 1)
 app.use(express.json())
 app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
