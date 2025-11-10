@@ -23,3 +23,8 @@ Admin :
     - Get Product (:id)
     - Create; Edit, Delete Product
     - Get Users
+
+
+
+Évolutions possible :
+    - Un système de rôles inclusifs (si Admin, donc accès aux route 'Preparer' et 'user')
