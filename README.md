@@ -21,10 +21,16 @@ Admin :
     - Set Order Prepared (:id)
     - Get Products
     - Get Product (:id)
-    - Create; Edit, Delete Product
+    - Create, Edit, Delete Product
     - Get Users
 
 
 
 Évolutions possible :
     - Un système de rôles inclusifs (si Admin, donc accès aux route 'Preparer' et 'user')
+
+
+
+
+À faire :
+    - Diagramme de classe et user story
