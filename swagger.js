@@ -10,7 +10,8 @@ const options = {
             version: "1.0.0",
         },
         server: [
-            {url: `http://localhost:${PORT}`}
+            {url: `http://localhost:${PORT}`},
+            {url: 'https://wacdonalds-server.onrender.com/'}
         ]
     },
     apis: ["./routes/*.js"]
