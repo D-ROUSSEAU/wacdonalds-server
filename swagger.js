@@ -12,22 +12,22 @@ const options = {
         server: [
             {url: `http://localhost:${PORT}`},
             {url: 'https://wacdonalds-server.onrender.com/'}
-        ]
-    },
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
+        ],
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
         },
-      },
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
     },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
     apis: ["./routes/*.js"]
 }
 
