@@ -58,7 +58,7 @@ router.post('/register', register)
  *                              - email
  *                              - password
  *                          properties:
- *                              id:
+ *                              email:
  *                                  type: string
  *                              password:
  *                                  type: string
