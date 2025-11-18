@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose")
 const Orders = require("../models/order.model")
+const Orders_items = require("../models/order_item.model")
 
 exports.getOrders = async (req, res) => {
     try {
@@ -36,13 +37,39 @@ exports.getOrder = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
     try {
-        const { menus } = req.body
+        const { menus, items } = req.body
 
-        if(!menus)
+        if(!menus && !items)
             return res.status(400).json({error: 'Please fill in the required fields'})
 
+        const orderItemsIds = []
+
+        for (const menu of menus) {
+           const orderItem = new Orders_items({
+                type: 'menu',
+                item: menu._id,
+                price: menu.price
+            })
+
+            const savedOrderItem = await orderItem.save()
+
+            orderItemsIds.push(savedOrderItem._id)
+        }
+
+        for (const item of items) {
+           const orderItem = new Orders_items({
+                type: 'product',
+                item: item._id,
+                price: item.price
+            })
+
+            const savedOrderItem = await orderItem.save()
+
+            orderItemsIds.push(savedOrderItem._id)
+        }
+
         const order = new Orders({
-            menus
+            items: orderItemsIds
         })
     
         const savedOrder = await order.save()

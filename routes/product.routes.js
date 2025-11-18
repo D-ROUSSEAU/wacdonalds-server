@@ -4,8 +4,6 @@ const { getProducts, getProduct, createProduct, editProduct, deleteProduct } = r
 const router = express.Router()
 const upload = require('../middlewares/multer')
 
-router.use(auth('admin'))
-
 /**
  * @swagger
  * tags:
@@ -25,7 +23,7 @@ router.use(auth('admin'))
  *              200:
  *                  description: list of products
  */
-router.get('/', auth('admin'), getProducts)
+router.get('/', auth('user', 'admin'), getProducts)
 
 /**
  * @swagger
@@ -52,7 +50,7 @@ router.get('/', auth('admin'), getProducts)
  *              400:
  *                  description: id not valid
  */
-router.get('/:id', auth('admin'), getProduct)
+router.get('/:id', auth('user', 'admin'), getProduct)
 
 /**
  * @swagger

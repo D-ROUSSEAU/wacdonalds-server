@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const orderSchema = new mongoose.Schema({
     status: {type: String, default: ''},
-    menus: [{type: mongoose.Schema.Types.ObjectId, ref: 'Menus'}]
+    items: [{type: mongoose.Schema.Types.ObjectId, ref: 'Orders_items'}]
 }, {timestamps: true})
 
 module.exports = mongoose.model('Orders', orderSchema, 'orders')
