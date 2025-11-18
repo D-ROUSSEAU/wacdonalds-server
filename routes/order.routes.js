@@ -24,7 +24,7 @@ const router = express.Router()
  *              200:
  *                  description: list of orders
  */
-router.get('/', auth('preparer'), getOrders)
+router.get('/', auth('preparer', 'admin'), getOrders)
 
 /**
  * @swagger

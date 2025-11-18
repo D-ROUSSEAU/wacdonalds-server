@@ -10,7 +10,7 @@ exports.getOrders = async (req, res) => {
         if (userRole === "preparer")
             filter.status = "prepared"
         else if (userRole === "admin")
-            filter.status = { $in: ["finished", "delivered"] }
+            filter.status = { $in: ["finished", "delivered", ""] }
 
         const orders = await Orders.find(filter);
 
@@ -44,29 +44,31 @@ exports.createOrder = async (req, res) => {
 
         const orderItemsIds = []
 
-        for (const menu of menus) {
-           const orderItem = new Orders_items({
-                type: 'menu',
-                item: menu._id,
-                price: menu.price
-            })
+        if(menus)
+            for (const menu of menus) {
+            const orderItem = new Orders_items({
+                    type: 'menu',
+                    item: menu._id,
+                    price: menu.price
+                })
 
-            const savedOrderItem = await orderItem.save()
+                const savedOrderItem = await orderItem.save()
 
-            orderItemsIds.push(savedOrderItem._id)
-        }
+                orderItemsIds.push(savedOrderItem._id)
+            }
 
-        for (const item of items) {
-           const orderItem = new Orders_items({
-                type: 'product',
-                item: item._id,
-                price: item.price
-            })
+        if(items)
+            for (const item of items) {
+            const orderItem = new Orders_items({
+                    type: 'product',
+                    item: item._id,
+                    price: item.price
+                })
 
-            const savedOrderItem = await orderItem.save()
+                const savedOrderItem = await orderItem.save()
 
-            orderItemsIds.push(savedOrderItem._id)
-        }
+                orderItemsIds.push(savedOrderItem._id)
+            }
 
         const order = new Orders({
             items: orderItemsIds
@@ -76,6 +78,7 @@ exports.createOrder = async (req, res) => {
     
         res.status(200).json(savedOrder)
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: "An error occurred while create the order" })
     }
 }

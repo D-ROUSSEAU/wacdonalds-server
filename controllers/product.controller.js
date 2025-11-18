@@ -47,7 +47,7 @@ exports.createProduct = async (req, res) => {
     
         res.status(200).json(savedProduct)
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while create the product", error })
+        res.status(500).json({ error: "An error occurred while create the product" })
     }
 }
 
@@ -59,7 +59,7 @@ exports.editProduct = async (req, res) => {
         const product = await Products.findById(id)
 
         if(!product)
-            return res.status(404).json({error: 'Product not find'})
+            return res.status(400).json({error: 'Product not find'})
 
         if(name)
             product.name = name
@@ -90,7 +90,7 @@ exports.deleteProduct = async (req, res) => {
         const product = await Products.findById(id)
 
         if(!product)
-            return res.status(404).json({error: 'Product not find'})
+            return res.status(400).json({error: 'Product not find'})
 
         await product.deleteOne()
 

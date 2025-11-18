@@ -6,7 +6,7 @@ const app = require('../app')
 
 jest.mock('../middlewares/auth', () => {
     return jest.fn((role) => (req, res, next) => {
-        req.user = { userId: '68e582d4b75a62851d8c0444', role }
+        req.user = { userId: '691c3acbac9a25d133316b5c', role }
         next()
     })
 })
@@ -175,9 +175,11 @@ describe("PUT /api/menus/:id", () => {
             products: [],
             save: jest.fn().mockResolvedValue({
                 _id: fakeId,
-                name: "Menu 1",
-                description: "Description",
-                products: []
+                name: "Menu 1 changed",
+                description: "Description changed",
+                products: [
+                    "1"
+                ]
             })
         }
 
@@ -185,14 +187,14 @@ describe("PUT /api/menus/:id", () => {
 
         const res = await request(app)
             .put(`/api/menus/${fakeId}`)
-            .send({ name: "Menu 1", description: "Description", products: [] })
+            .send({ name: "Menu 1 changed", description: "Description changed", products: ["1"] })
 
         expect(res.statusCode).toBe(200)
         expect(res.body).toEqual({
             _id: fakeId,
-            name: "Menu 1",
-            description: "Description",
-            products: []
+            name: "Menu 1 changed",
+            description: "Description changed",
+            products: ["1"]
         })
         expect(fakeMenu.save).toHaveBeenCalledTimes(1)
     })
