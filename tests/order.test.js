@@ -129,7 +129,6 @@ describe("GET /api/orders/:id", () => {
         
         expect(res.statusCode).toBe(400) 
         expect(res.body).toEqual({ error: "ID not valid" }) 
-    
     })
 
     it("devrait retourner une erreur 500", async () => {
@@ -190,5 +189,195 @@ describe("POST /api/orders", () => {
         expect(res.body.items).toEqual([fakeOrderItemId1, fakeOrderItemId2])
         expect(Orders_items.prototype.save).toHaveBeenCalledTimes(2)
         expect(Orders.prototype.save).toHaveBeenCalledTimes(1)
+    })
+
+    it("devrait retourner une erreur 400", async () => {
+        const res = await request(app).post("/api/orders").send({})
+        
+        expect(res.statusCode).toBe(400) 
+        expect(res.body).toEqual({ error: "Please fill in the required fields" }) 
+    })
+
+    it("devrait retourner une erreur 500", async () => {
+        const fakeMenu = {
+            _id: new mongoose.Types.ObjectId().toString(),
+            price: 12.99
+        }
+
+        const fakeItem = {
+            _id: new mongoose.Types.ObjectId().toString(),
+            price: 9.99
+        }
+
+        Orders.prototype.save = jest.fn().mockRejectedValue(new Error("Database error"))
+        
+        const res = await request(app)
+            .post("/api/orders")
+            .send({
+                menus: [fakeMenu],
+                items: [fakeItem]
+            })
+        
+        expect(res.statusCode).toBe(500)
+        expect(res.body).toEqual({ error: "An error occurred while create the order" })
+    })
+})
+
+describe("PUT /api/orders/:id/finish", () => {
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+
+    it("devrait terminer la commande", async () => {
+        const fakeId = new mongoose.Types.ObjectId().toString()
+
+        const fakeOrder = { 
+            _id: fakeId, name: "Order 1", items: [], status: "",
+                save: jest.fn().mockResolvedValue({
+                    _id: fakeId, name: "Order 1", items: [], status: "finished"
+            })
+        }
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeOrder)
+
+        const res = await request(app).put(`/api/orders/${fakeId}/finish`)
+
+        expect(res.statusCode).toBe(200)
+        expect(res.body).toEqual({ _id: fakeId, name: "Order 1", items: [], status: "finished" })
+        expect(Orders.findById).toHaveBeenCalledTimes(1)
+        expect(Orders.findById).toHaveBeenCalledWith(fakeId)
+    })
+
+    it("devrait retourner une erreur 400", async () => {
+        const fakeId = "1"
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeId)
+        
+        const res = await request(app).put(`/api/orders/${fakeId}/finish`) 
+        
+        expect(res.statusCode).toBe(400) 
+        expect(res.body).toEqual({ error: "ID not valid" }) 
+    })
+
+    it("devrait retourner une erreur 500", async () => {
+        const fakeId = new mongoose.Types.ObjectId().toString()
+
+        const fakeOrder = { 
+            _id: fakeId, name: "Order 1", items: [], status: "", save: jest.fn().mockRejectedValue(new Error("Database error"))
+        }
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeId)
+        
+        const res = await request(app).put(`/api/orders/${fakeId}/finish`)
+        
+        expect(res.statusCode).toBe(500)
+        expect(res.body).toEqual({ error: "An error occurred while finishing the order" })
+    
+    })
+})
+
+describe("PUT /api/orders/:id/prepare", () => {
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+
+    it("devrait preparer la commande", async () => {
+        const fakeId = new mongoose.Types.ObjectId().toString()
+
+        const fakeOrder = { 
+            _id: fakeId, name: "Order 1", items: [], status: "",
+                save: jest.fn().mockResolvedValue({
+                    _id: fakeId, name: "Order 1", items: [], status: "prepared"
+            })
+        }
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeOrder)
+
+        const res = await request(app).put(`/api/orders/${fakeId}/prepare`)
+
+        expect(res.statusCode).toBe(200)
+        expect(res.body).toEqual({ _id: fakeId, name: "Order 1", items: [], status: "prepared" })
+        expect(Orders.findById).toHaveBeenCalledTimes(1)
+        expect(Orders.findById).toHaveBeenCalledWith(fakeId)
+    })
+
+    it("devrait retourner une erreur 400", async () => {
+        const fakeId = "1"
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeId)
+        
+        const res = await request(app).put(`/api/orders/${fakeId}/prepare`) 
+        
+        expect(res.statusCode).toBe(400) 
+        expect(res.body).toEqual({ error: "ID not valid" }) 
+    })
+
+    it("devrait retourner une erreur 500", async () => {
+        const fakeId = new mongoose.Types.ObjectId().toString()
+
+        const fakeOrder = { 
+            _id: fakeId, name: "Order 1", items: [], status: "", save: jest.fn().mockRejectedValue(new Error("Database error"))
+        }
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeId)
+        
+        const res = await request(app).put(`/api/orders/${fakeId}/prepare`)
+        
+        expect(res.statusCode).toBe(500)
+        expect(res.body).toEqual({ error: "An error occurred while preparing the order" })
+    
+    })
+})
+
+describe("PUT /api/orders/:id/deliver", () => {
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+
+    it("devrait preparer la commande", async () => {
+        const fakeId = new mongoose.Types.ObjectId().toString()
+
+        const fakeOrder = { 
+            _id: fakeId, name: "Order 1", items: [], status: "",
+                save: jest.fn().mockResolvedValue({
+                    _id: fakeId, name: "Order 1", items: [], status: "delivred"
+            })
+        }
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeOrder)
+
+        const res = await request(app).put(`/api/orders/${fakeId}/deliver`)
+
+        expect(res.statusCode).toBe(200)
+        expect(res.body).toEqual({ _id: fakeId, name: "Order 1", items: [], status: "delivred" })
+        expect(Orders.findById).toHaveBeenCalledTimes(1)
+        expect(Orders.findById).toHaveBeenCalledWith(fakeId)
+    })
+
+    it("devrait retourner une erreur 400", async () => {
+        const fakeId = "1"
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeId)
+        
+        const res = await request(app).put(`/api/orders/${fakeId}/deliver`) 
+        
+        expect(res.statusCode).toBe(400) 
+        expect(res.body).toEqual({ error: "ID not valid" }) 
+    })
+
+    it("devrait retourner une erreur 500", async () => {
+        const fakeId = new mongoose.Types.ObjectId().toString()
+
+        const fakeOrder = { 
+            _id: fakeId, name: "Order 1", items: [], status: "", save: jest.fn().mockRejectedValue(new Error("Database error"))
+        }
+
+        Orders.findById = jest.fn().mockResolvedValue(fakeId)
+        
+        const res = await request(app).put(`/api/orders/${fakeId}/deliver`)
+        
+        expect(res.statusCode).toBe(500)
+        expect(res.body).toEqual({ error: "An error occurred while delivering the order" })
+    
     })
 })

@@ -164,7 +164,6 @@ describe("POST /api/products", () => {
         
         expect(res.statusCode).toBe(500)
         expect(res.body).toEqual({ error: "An error occurred while create the product" })
-    
     })
 })
 

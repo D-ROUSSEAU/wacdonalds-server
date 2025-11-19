@@ -78,7 +78,6 @@ exports.createOrder = async (req, res) => {
     
         res.status(200).json(savedOrder)
     } catch (error) {
-        console.log(error)
         res.status(500).json({ error: "An error occurred while create the order" })
     }
 }
@@ -98,7 +97,7 @@ exports.finishOrder = async (req, res) => {
         
         res.status(200).json(editOrder)
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while deliver the order" })
+        res.status(500).json({ error: "An error occurred while finishing the order" })
     }
 }
 
@@ -117,7 +116,7 @@ exports.prepareOrder = async (req, res) => {
         
         res.status(200).json(editOrder)
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while deliver the order" })
+        res.status(500).json({ error: "An error occurred while preparing the order" })
     }
 }
 
@@ -136,6 +135,6 @@ exports.deliverOrder = async (req, res) => {
         
         res.status(200).json(editOrder)
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while deliver the order" })
+        res.status(500).json({ error: "An error occurred while delivering the order" })
     }
 }
